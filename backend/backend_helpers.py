@@ -1,6 +1,7 @@
 import pandas as pd
 import datetime as dt
 import pytz
+from pymongo import MongoClient
 
 time_zone = pytz.timezone("America/Chicago")
 
@@ -22,19 +23,15 @@ def convertToDate(date):
 
 # Converts time to Time object
 def convertToTime(time):
-    if type(time) != str:
-        return dt.time()
-    split_space = time.split(" ")
-    split = split_space[0].split(":")
-    hours = int(split[0])
-    minutes = int(split[1])
-    if "PM" in split_space[1] and hours != 12:
-        hours = (hours + 12) % 24
-    return dt.time(hours, minutes, tzinfo = time_zone)
+    times = time.split(":")
+    return dt.time(int(times[0]), int(times[1]), int(times[2]), tzinfo = time_zone)
     
 # Converts a datetime object to a time objecf
 def convertDTtoTime(datetime : dt.datetime):
     return dt.time(datetime.hour, datetime.minute, tzinfo = time_zone)
+
+def convertDTtoDate(datetime : dt.datetime):
+    return dt.date(datetime.year, datetime.day, datetime.minute)
 
 # Returns true if a class is happening on the current day
 def isCurrentDay(days):
@@ -48,15 +45,3 @@ def convertDfToDT(df):
     df["End"] = df["End"].apply(convertToTime)
     df["Correct Day"] = df["Days"].apply(isCurrentDay)
     return df
-
-
-# Returns all classes currently in session
-def getCurrentClasses():
-    df = pd.read_csv("./uiuc_fa2024_courses.csv")
-    df = convertDfToDT(df)
-    day = dt.date(2024, 9, 1)
-    time = dt.time(9, 0, tzinfo = time_zone)
-    return df.loc[(df['Start Date'] <= day) & (df['End Date'] >= day) & (df['Start'] < time) & (df['End'] >= time) & (df["Correct Day"] == True)]
-
-df = pd.read_csv("./akul.csv")
-print(getCurrentClasses())
