@@ -97,3 +97,35 @@ def addAddressToDB():
             collection.update_one(
                 {"_id": doc["_id"]}, {"$set": {"Address": new_address}}
             )
+
+def getCurrentClasses(entrees, current_time):
+    filtered = []
+    for entry in entrees:
+        start_time_str = entry.get("Start")
+        end_time_str = entry.get("End")
+        days = entry.get("Days")
+        if start_time_str and end_time_str:
+            start_time = convertToTime(start_time_str)
+            end_time = convertToTime(end_time_str)
+            if (
+                start_time < current_time
+                and end_time > current_time
+                and isCurrentDay(days)
+            ):
+                filtered.append(entry)
+    return filtered
+
+def getNearbyClasses(entrees, current_location):
+    gmaps = googlemaps.Client(MAPS_KEY)
+    now = dt.datetime.now()
+    filtered = []
+    for entry in entrees:
+        address = entry.get("Address")
+        if address:
+            distance = gmaps.distance_matrix(current_location, address, mode = "walking", departure_time = now, units = "imperial")
+            if distance:
+                val = float(distance['rows'][0]['elements'][0]['distance']['text'].split(" ")[0])
+                if val < 0.5:
+                    entry['Distance'] = val
+                    filtered.append(entry)
+    return filtered
