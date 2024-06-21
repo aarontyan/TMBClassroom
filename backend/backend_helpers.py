@@ -98,6 +98,7 @@ def addAddressToDB():
                 {"_id": doc["_id"]}, {"$set": {"Address": new_address}}
             )
 
+# Returns all classes currently happening
 def getCurrentClasses(entrees, current_time):
     filtered = []
     for entry in entrees:
@@ -108,24 +109,44 @@ def getCurrentClasses(entrees, current_time):
             start_time = convertToTime(start_time_str)
             end_time = convertToTime(end_time_str)
             if (
-                start_time < current_time
+                start_time <= current_time
                 and end_time > current_time
                 and isCurrentDay(days)
             ):
                 filtered.append(entry)
     return filtered
 
-def getNearbyClasses(entrees, current_location):
+# Returns all classes within a radius (in miles) of the current location
+def getNearbyClasses(entrees, latitude, longitude, current_time, distance):
     gmaps = googlemaps.Client(MAPS_KEY)
-    now = dt.datetime.now()
     filtered = []
+    latitude = 40.105960
+    longitude = -88.225560
     for entry in entrees:
         address = entry.get("Address")
         if address:
-            distance = gmaps.distance_matrix(current_location, address, mode = "walking", departure_time = now, units = "imperial")
+            result = gmaps.distance_matrix((latitude, longitude), address, mode = "walking", departure_time = current_time, units = "imperial")
             if distance:
-                val = float(distance['rows'][0]['elements'][0]['distance']['text'].split(" ")[0])
-                if val < 0.5:
+                val = float(result['rows'][0]['elements'][0]['distance']['text'].split(" ")[0].replace(",", ""))
+                if val < distance:
                     entry['Distance'] = val
                     filtered.append(entry)
+    return filtered
+
+def filterBySubject(entrees, subjects):
+    if len(subjects) == 0:
+        return entrees
+    filtered = []
+    for entry in entrees:
+        if entry["Subject"] in subjects:
+            filtered.append(entry)
+    return filtered
+
+def filterByType(entrees, types):
+    if len(types) == 0:
+        return entrees
+    filtered = []
+    for entry in entrees:
+        if entry["Type"] in types:
+            filtered.append(entry)
     return filtered
