@@ -6,7 +6,7 @@ TMB Classroom is a fullstack application created to help bored students find cla
 - Displays all currently running classes within a 0.5 mile radius by default
 - Allows users to filter classes based on subject, distance, and type
 - Allows users to sort information by name, subject, and course number, both by ascending and descending order
-- Dynamically reloads courses based on filtered options
+- Dynamically reloads courses based on filtered options (distance, subject, type, etc.)
 - Stores filtered preferences across reloads
 
 
