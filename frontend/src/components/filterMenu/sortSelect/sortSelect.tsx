@@ -28,7 +28,7 @@ const SortSelect: React.FC = () => {
     const sendChoicesToBackend = async () => {
         try {
             let asc = 1
-            if (order == "Descending") {
+            if (order ==="Descending") {
                 asc = -1
             }
           const response = await fetch("http://localhost:5000/api/sort", {

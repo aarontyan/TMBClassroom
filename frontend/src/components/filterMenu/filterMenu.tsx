@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import "./filterMenu.css"
 import TypeSelect from "./typeSelect/typeSelect";
 import SubjectSelect from "./subjectSelect/subjectSelect";
