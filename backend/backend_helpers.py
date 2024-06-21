@@ -122,8 +122,8 @@ def getCurrentClasses(entrees, current_time):
 def getNearbyClasses(entrees, latitude, longitude, current_time, distance):
     gmaps = googlemaps.Client(MAPS_KEY)
     filtered = []
-    latitude = 40.105960
-    longitude = -88.225560
+    # latitude = 40.105960
+    # longitude = -88.225560
     for entry in entrees:
         address = entry.get("Address")
         if address:

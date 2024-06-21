@@ -39,10 +39,10 @@ def get_all_classes():
 
 @app.route("/classes/current", methods=["GET"])
 def get_current_classes():
-    # current_info = dt.datetime.now(tz=time_zone)
-    # current_time = dt.time(current_info.hour, current_info.minute, tzinfo=time_zone)
-    current_info = dt.datetime(2024, 9, 2, tzinfo=time_zone)
-    current_time = dt.time(9, 0, tzinfo=time_zone)
+    current_info = dt.datetime.now(tz=time_zone)
+    current_time = dt.time(current_info.hour, current_info.minute, tzinfo=time_zone)
+    # current_info = dt.datetime(2024, 9, 2, tzinfo=time_zone)
+    # current_time = dt.time(9, 0, tzinfo=time_zone)
     pipeline = [
         {
             "$match": {
@@ -78,10 +78,10 @@ def get_current_classes():
 
 @app.route("/classes/current/nearby", methods=["GET"])
 def get_current_nearby_classes():
-    # current_info = dt.datetime.now(tz=time_zone)
-    # current_time = dt.time(current_info.hour, current_info.minute, tzinfo=time_zone)
-    current_info = dt.datetime(2024, 9, 2, tzinfo=time_zone)
-    current_time = dt.time(9, 0, tzinfo=time_zone)
+    current_info = dt.datetime.now(tz=time_zone)
+    current_time = dt.time(current_info.hour, current_info.minute, tzinfo=time_zone)
+    # current_info = dt.datetime(2024, 9, 2, tzinfo=time_zone)
+    # current_time = dt.time(9, 0, tzinfo=time_zone)
     pipeline = [
         {
             "$match": {
