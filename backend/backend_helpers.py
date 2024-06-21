@@ -98,6 +98,7 @@ def addAddressToDB():
                 {"_id": doc["_id"]}, {"$set": {"Address": new_address}}
             )
 
+
 # Returns all classes currently happening
 def getCurrentClasses(entrees, current_time):
     filtered = []
@@ -116,6 +117,7 @@ def getCurrentClasses(entrees, current_time):
                 filtered.append(entry)
     return filtered
 
+
 # Returns all classes within a radius (in miles) of the current location
 def getNearbyClasses(entrees, latitude, longitude, current_time, distance):
     gmaps = googlemaps.Client(MAPS_KEY)
@@ -125,13 +127,24 @@ def getNearbyClasses(entrees, latitude, longitude, current_time, distance):
     for entry in entrees:
         address = entry.get("Address")
         if address:
-            result = gmaps.distance_matrix((latitude, longitude), address, mode = "walking", departure_time = current_time, units = "imperial")
+            result = gmaps.distance_matrix(
+                (latitude, longitude),
+                address,
+                mode="walking",
+                departure_time=current_time,
+                units="imperial",
+            )
             if distance:
-                val = float(result['rows'][0]['elements'][0]['distance']['text'].split(" ")[0].replace(",", ""))
+                val = float(
+                    result["rows"][0]["elements"][0]["distance"]["text"]
+                    .split(" ")[0]
+                    .replace(",", "")
+                )
                 if val < distance:
-                    entry['Distance'] = val
+                    entry["Distance"] = val
                     filtered.append(entry)
     return filtered
+
 
 def filterBySubject(entrees, subjects):
     if len(subjects) == 0:
@@ -141,6 +154,7 @@ def filterBySubject(entrees, subjects):
         if entry["Subject"] in subjects:
             filtered.append(entry)
     return filtered
+
 
 def filterByType(entrees, types):
     if len(types) == 0:

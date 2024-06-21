@@ -1,22 +1,22 @@
 .distance-input-wrapper {
-    width: 80%;
-    margin-left: 9%;
-    margin-top: 5%;
-    display: flex;
-    align-items: center;
+  width: 80%;
+  margin-left: 9%;
+  margin-top: 5%;
+  display: flex;
+  align-items: center;
 }
 
 .distance-input-field {
-    font-size: 16px;
-    padding: 10px;
-    width: 90%;
-    box-sizing: border-box;
-    margin-right: 10px;
+  font-size: 16px;
+  padding: 10px;
+  width: 90%;
+  box-sizing: border-box;
+  margin-right: 10px;
 }
 
 .distance-send-button {
-    font-size: 16px;
-    padding: 10px 20px;
-    box-sizing: border-box;
-    cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  cursor: pointer;
 }
