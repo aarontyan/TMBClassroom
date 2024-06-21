@@ -1,6 +1,6 @@
 ## About TMB Classroom
 
-TMB Classroom is a fullstack application created to help bored students find classes and lectures to sit on.
+TMB Classroom is a fullstack application created to help bored students find classes and lectures to sit in on.
 
 ## Functionality
 - Displays all currently running classes within a 0.5 mile radius by default
