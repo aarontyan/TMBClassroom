@@ -11,8 +11,8 @@ time_zone = pytz.timezone("America/Chicago")
 
 
 # Returns the current day of the week
-def currentDay():
-    curr_day = dt.datetime.today().weekday()
+def currentDay(current_info):
+    curr_day = current_info.weekday()
     days = ["M", "T", "W", "R", "F", "S", "U"]
     return days[curr_day]
 
@@ -44,8 +44,8 @@ def convertDTtoDate(datetime: dt.datetime):
 
 
 # Returns true if a class is happening on the current day
-def isCurrentDay(days):
-    return currentDay() in days
+def isCurrentDay(current_day, days):
+    return currentDay(current_day) in days
 
 
 # Converts dataframe's columns for comparisons
@@ -100,7 +100,12 @@ def addAddressToDB():
 
 
 # Returns all classes currently happening
-def getCurrentClasses(entrees, current_time):
+def getCurrentClasses(entrees, current_info, current_time):
+    print("Getting current classes")
+    print(entrees)
+    print(current_info)
+    print(current_time)
+    print(currentDay(current_info))
     filtered = []
     for entry in entrees:
         start_time_str = entry.get("Start")
@@ -112,7 +117,7 @@ def getCurrentClasses(entrees, current_time):
             if (
                 start_time <= current_time
                 and end_time > current_time
-                and isCurrentDay(days)
+                and isCurrentDay(current_info, days)
             ):
                 filtered.append(entry)
     return filtered
@@ -120,10 +125,13 @@ def getCurrentClasses(entrees, current_time):
 
 # Returns all classes within a radius (in miles) of the current location
 def getNearbyClasses(entrees, latitude, longitude, current_time, distance):
+    print("Getting nearby classes")
+    print(latitude)
+    print(longitude)
+    print(current_time)
+    print(distance)
     gmaps = googlemaps.Client(MAPS_KEY)
     filtered = []
-    # latitude = 40.105960
-    # longitude = -88.225560
     for entry in entrees:
         address = entry.get("Address")
         if address:

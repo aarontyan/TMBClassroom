@@ -83,7 +83,7 @@ const ClassList: React.FC = () => {
   }
 
   if (error) {
-    return <div className="loading">Error: {error}</div>;
+    return <div className="loading">{error}</div>;
   }
   return (
     <div className="class-container">

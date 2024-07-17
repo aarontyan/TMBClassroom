@@ -20,6 +20,8 @@ subjects = []
 option = "Name"
 asc = 1
 distance = 0.5
+current_info = dt.datetime.now(tz=time_zone)
+current_time = dt.time(current_info.hour, current_info.minute, tzinfo=time_zone)
 
 
 @app.route("/")
@@ -39,10 +41,6 @@ def get_all_classes():
 
 @app.route("/classes/current", methods=["GET"])
 def get_current_classes():
-    current_info = dt.datetime.now(tz=time_zone)
-    current_time = dt.time(current_info.hour, current_info.minute, tzinfo=time_zone)
-    # current_info = dt.datetime(2024, 9, 2, tzinfo=time_zone)
-    # current_time = dt.time(9, 0, tzinfo=time_zone)
     pipeline = [
         {
             "$match": {
@@ -78,10 +76,7 @@ def get_current_classes():
 
 @app.route("/classes/current/nearby", methods=["GET"])
 def get_current_nearby_classes():
-    current_info = dt.datetime.now(tz=time_zone)
-    current_time = dt.time(current_info.hour, current_info.minute, tzinfo=time_zone)
-    # current_info = dt.datetime(2024, 9, 2, tzinfo=time_zone)
-    # current_time = dt.time(9, 0, tzinfo=time_zone)
+    print(current_info)
     pipeline = [
         {
             "$match": {
@@ -107,7 +102,10 @@ def get_current_nearby_classes():
         {"$sort": {option: asc}},
     ]
     entrees = collection.aggregate(pipeline)
-    current_filtered = getCurrentClasses(entrees, current_time)
+    latitude = 40.106313
+    longitude = -88.227165
+    current_filtered = getCurrentClasses(entrees, current_info, current_time)
+
     nearby_filtered = getNearbyClasses(
         current_filtered, latitude, longitude, current_info, distance
     )
@@ -150,8 +148,6 @@ def receive_sorts():
     global asc
     option = data.get("option")
     asc = data.get("asc")
-    print(option)
-    print(asc)
     return make_response(jsonify({"success": True}), 200)
 
 
@@ -162,6 +158,16 @@ def receive_distance():
     distance = data.get("distance")
     return make_response(jsonify({"success": True}), 200)
 
+@app.route("/api/time", methods = ["POST"])
+def receive_time():
+    data = request.get_json()
+    global current_info
+    global current_time
+    current_info = dt.datetime(data.get("year"), data.get("month"), data.get("day"), tzinfo=time_zone)
+    current_time = dt.time(data.get("hour"), data.get("minute"), tzinfo=time_zone)
+    print(current_info)
+    print(current_time)
+    return make_response(jsonify({"success": True}), 200)
 
 if __name__ == "__main__":
     app.run(host="localhost", port=5000)

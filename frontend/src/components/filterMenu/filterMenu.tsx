@@ -4,6 +4,7 @@ import TypeSelect from "./typeSelect/typeSelect";
 import SubjectSelect from "./subjectSelect/subjectSelect";
 import SortSelect from "./sortSelect/sortSelect";
 import DistanceSelect from "./distanceSelect/distanceSelect";
+import TimeSelect from "./timeSelect/timeSelect";
 
 const FilterMenu: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const FilterMenu: React.FC = () => {
       <TypeSelect />
       <SubjectSelect />
       <SortSelect />
+      <TimeSelect/>
     </div>
   );
 };
